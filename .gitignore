@@ -1,0 +1,6 @@
+# The dependencies come from the sibling repositories listed in [sources] of Project.toml,
+# so the Manifest is rebuilt by Pkg.instantiate and records paths of the local machine
+Manifest.toml
+
+# Simulation outputs of the cases
+results*/

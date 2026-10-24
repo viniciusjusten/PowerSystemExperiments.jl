@@ -1,0 +1,14 @@
+name = "PowerSystemExperiments"
+uuid = "a24254ed-59a2-4f9b-b3bf-98e7422689d6"
+authors = ["viniciusjusten <viniciusjusten@psr-inc.com>"]
+version = "0.1.0"
+
+[deps]
+PowerFlow = "b61c0420-be51-4a2a-b9db-6cf0ae4bf773"
+PowerSystemData = "1f3ae2e0-3a56-4dfe-8ed4-bdf0a2a0eb09"
+nsLFT = "bb55c95c-db71-48c0-b386-b62a768a3643"
+
+[sources]
+PowerFlow = {path = "../PowerFlow.jl"}
+PowerSystemData = {path = "../PowerSystemData.jl"}
+nsLFT = {path = "../nsLFT"}
