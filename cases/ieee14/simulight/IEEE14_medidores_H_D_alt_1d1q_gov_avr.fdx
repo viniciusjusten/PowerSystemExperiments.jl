@@ -1,0 +1,1125 @@
+<SEE dscr="Novo Sistema" sign="LIGHT" version="3">
+	<AREA id="0" name="Area Base" dscr="">
+		<SUBS id="4" name="Bus 04" dscr="" empr="" regi="">
+			<BARMTO id="4" name="Bus 04" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.96359158" Tet="-12.621613" />
+				<DATA />
+			</BARMTO>
+			<BARMTO id="7" name="Bus 07" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.98848533" Tet="-16.520652" />
+				<DATA />
+			</BARMTO>
+			<BARMTO id="9" name="Bus 09" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.9848161" Tet="-18.57159" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR4" no="4" cir="1" mdl="1" Vnom="1" Snom="47.958837" empr="">
+				<STT P="47.8" Q="3.9" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.478" />
+					<SET parm="Q" value="0.039" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<CARG name="CR9" no="9" cir="1" mdl="1" Vnom="1" Snom="33.849815" empr="">
+				<STT P="29.5" Q="16.6" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.295" />
+					<SET parm="Q" value="0.166" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<CAPC name="BC9" no="9" cir="2" mdl="1" Vnom="1" Snom="19" empr="">
+				<STT Q="18.427392" />
+				<MODEL id="CAPACTR#zcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="Q" value="0.189999997262" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+				</MODEL>
+				<DATA />
+			</CAPC>
+			<TRAF name="TR4-7(1)" no01="4" no02="7" cir="1" mdl="1" at="0" bt="0" Snom="0" Smax="0" empr="">
+				<STT tap="0.978" />
+				<MODEL id="TRANSF#pi" source="BUILT" group="LFLOW" default="S">
+					<SET parm="R" value="0" />
+					<SET parm="X" value="0.2091" />
+					<SET parm="tap" value="0.978" />
+				</MODEL>
+				<DATA />
+			</TRAF>
+			<TRAF name="TR4-9(1)" no01="4" no02="9" cir="1" mdl="1" at="0" bt="0" Snom="0" Smax="0" empr="">
+				<STT tap="0.969" />
+				<MODEL id="TRANSF#pi" source="BUILT" group="LFLOW" default="S">
+					<SET parm="R" value="0" />
+					<SET parm="X" value="0.5562" />
+					<SET parm="tap" value="0.969" />
+				</MODEL>
+				<DATA />
+			</TRAF>
+			<MEDC>
+				<VOLT name="VOLT 4" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="4" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 4" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="4" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<VOLT name="VOLT 7" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="7" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 7" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="7" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<VOLT name="VOLT 9" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="9" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 9" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="9" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR4" cls="1" regstr="S" empr="">
+					<CNX devc="CR4" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR4" cls="1" regstr="S" empr="">
+					<CNX devc="CR4" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<MW name="MW   CR9" cls="1" regstr="S" empr="">
+					<CNX devc="CR9" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR9" cls="1" regstr="S" empr="">
+					<CNX devc="CR9" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="5" name="Bus 05" dscr="" empr="" regi="">
+			<BARMTO id="5" name="Bus 05" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.96230396" Tet="-10.908482" />
+				<DATA />
+			</BARMTO>
+			<BARMTO id="6" name="Bus 06" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="1" Tet="-18.928992" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR5" no="5" cir="1" mdl="1" Vnom="1" Snom="7.7665951" empr="">
+				<STT P="7.6" Q="1.6" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.076" />
+					<SET parm="Q" value="0.016" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<GERD name="UG6" no="6" cir="1" mdl="1" Vnom="1" Snom="40.72" empr="">
+				<STT P="-0" Q="37.0347922599" />
+				<MODEL id="GERADOR#Mdl:PV" source="LIBRY" group="LFLOW" default="S">
+					<SET parm="P" value="0" />
+					<SET parm="Vref" value="1" />
+					<SET parm="unids" value="1" />
+					<SET parm="Pmn" value="-99.99" />
+					<SET parm="Pmx" value="99.99" />
+					<SET parm="Qmn" value="-99.99" />
+					<SET parm="Qmx" value="99.99" />
+					<SET parm="CREM" value="0" />
+					<TRM iblc="VOLT" term="1" />
+				</MODEL>
+				<MODEL id="GERADOR#GRP" source="LIBRY" group="DYNAMIC" default="N">
+					<MODEL id="MaqSincr#Mdl:III" source="LIBRY">
+						<SET parm="H" value="5" />
+						<SET parm="D" value="2" />
+						<SET parm="Sbase" value="40.722" />
+						<SET parm="unids" value="1" />
+						<SET parm="r" value="0" />
+						<SET parm="xd" value="1.8" />
+						<SET parm="xq" value="1.7" />
+						<SET parm="xld" value="0.4" />
+						<SET parm="xlq" value="0.4" />
+						<SET parm="Tldo" value="8" />
+						<SET parm="Tlqo" value="0.4" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+					<MODEL id="CtrlVeloc#REF" source="LIBRY">
+						<SET parm="Pm" value="1" />
+					</MODEL>
+					<MODEL id="RegTensao#Mdl:1oORD" source="LIBRY">
+						<SET parm="K" value="50" />
+						<SET parm="T" value="0.05" />
+						<SET parm="Lmn" value="-5" />
+						<SET parm="Lmx" value="5" />
+						<SET parm="Vref" value="0" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+				</MODEL>
+				<DATA />
+			</GERD>
+			<CARG name="CR6" no="6" cir="2" mdl="1" Vnom="1" Snom="42.426407" empr="">
+				<STT P="30" Q="30" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.3" />
+					<SET parm="Q" value="0.3" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<TRAF name="TR5-6(1)" no01="5" no02="6" cir="1" mdl="1" at="0" bt="0" Snom="0" Smax="0" empr="">
+				<STT tap="0.932" />
+				<MODEL id="TRANSF#pi" source="BUILT" group="LFLOW" default="S">
+					<SET parm="R" value="0" />
+					<SET parm="X" value="0.252" />
+					<SET parm="tap" value="0.932" />
+				</MODEL>
+				<DATA />
+			</TRAF>
+			<MEDC>
+				<VOLT name="VOLT 5" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="5" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 5" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="5" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<VOLT name="VOLT 6" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="6" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 6" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="6" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   GER-6" cls="1" regstr="S" empr="">
+					<CNX devc="UG6" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR GER-6" cls="1" regstr="S" empr="">
+					<CNX devc="UG6" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<EXPT name="DELT-6" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG6" stt="delt" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<EXPT name="WMAQ-6" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG6" stt="w" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<MW name="MW   CR5" cls="1" regstr="S" empr="">
+					<CNX devc="CR5" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR5" cls="1" regstr="S" empr="">
+					<CNX devc="CR5" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<MW name="MW   CR6" cls="1" regstr="S" empr="">
+					<CNX devc="CR6" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR6" cls="1" regstr="S" empr="">
+					<CNX devc="CR6" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="1" name="Bus 01" dscr="" empr="" regi="">
+			<BARMTO id="1" name="Bus 01" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="1" Tet="0" />
+				<DATA />
+			</BARMTO>
+			<GERD name="UG1" no="2" cir="1" mdl="1" Vnom="1" Snom="286.19" empr="">
+				<STT P="256.0510642" Q="-46.420896712" />
+				<MODEL id="GERADOR#Mdl:V0" source="LIBRY" group="LFLOW" default="S">
+					<SET parm="Vref" value="1" />
+					<SET parm="Aref" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Pmn" value="-99.99" />
+					<SET parm="Pmx" value="99.99" />
+					<SET parm="Qmn" value="-99.99" />
+					<SET parm="Qmx" value="99.99" />
+					<SET parm="CREM" value="0" />
+					<TRM iblc="VOLT" term="1" />
+				</MODEL>
+				<MODEL id="GERADOR#GRP" source="LIBRY" group="DYNAMIC" default="N">
+					<MODEL id="MaqSincr#Mdl:III" source="LIBRY">
+						<SET parm="H" value="5" />
+						<SET parm="D" value="2" />
+						<SET parm="Sbase" value="286.1881227" />
+						<SET parm="unids" value="1" />
+						<SET parm="r" value="0" />
+						<SET parm="xd" value="1.8" />
+						<SET parm="xq" value="1.7" />
+						<SET parm="xld" value="0.4" />
+						<SET parm="xlq" value="0.4" />
+						<SET parm="Tldo" value="8" />
+						<SET parm="Tlqo" value="0.4" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+					<MODEL id="CtrlVeloc#Mdl:Termo" source="LIBRY">
+						<SET parm="R" value="0.05" />
+						<SET parm="Tc" value="0.01" />
+						<SET parm="Tr" value="2" />
+						<SET parm="Pref" value="0" />
+					</MODEL>
+					<MODEL id="RegTensao#Mdl:1oORD" source="LIBRY">
+						<SET parm="K" value="50" />
+						<SET parm="T" value="0.05" />
+						<SET parm="Lmn" value="-5" />
+						<SET parm="Lmx" value="5" />
+						<SET parm="Vref" value="0" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+				</MODEL>
+				<DATA />
+			</GERD>
+			<DISJ name="DJ-UG1" no01="1" no02="2" cir="1" mdl="1" Ron="0" Vnom="1" Irupt="0" norm="ON" empr="">
+				<STT sit="ON" />
+				<DATA />
+			</DISJ>
+			<MEDC>
+				<VOLT name="VOLT 1" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="1" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 1" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="1" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   GER-1" cls="1" regstr="S" empr="">
+					<CNX devc="UG1" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR GER-1" cls="1" regstr="S" empr="">
+					<CNX devc="UG1" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<EXPT name="DELT-1" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG1" stt="delt" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<EXPT name="WMAQ-1" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG1" stt="w" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="2" name="Bus 02" dscr="" empr="" regi="">
+			<BARMTO id="2" name="Bus 02" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="1" Tet="-6.3985139" />
+				<DATA />
+			</BARMTO>
+			<GERD name="UG2" no="1" cir="1" mdl="1" Vnom="1" Snom="88.09" empr="">
+				<STT P="40" Q="69.417986775" />
+				<MODEL id="GERADOR#Mdl:PV" source="LIBRY" group="LFLOW" default="S">
+					<SET parm="P" value="0.4" />
+					<SET parm="Vref" value="1" />
+					<SET parm="unids" value="1" />
+					<SET parm="Pmn" value="-99.99" />
+					<SET parm="Pmx" value="99.99" />
+					<SET parm="Qmn" value="-99.99" />
+					<SET parm="Qmx" value="99.99" />
+					<SET parm="CREM" value="0" />
+					<TRM iblc="VOLT" term="1" />
+				</MODEL>
+				<MODEL id="GERADOR#GRP" source="LIBRY" group="DYNAMIC" default="N">
+					<MODEL id="MaqSincr#Mdl:III" source="LIBRY">
+						<SET parm="H" value="5" />
+						<SET parm="D" value="2" />
+						<SET parm="Sbase" value="88.09334324" />
+						<SET parm="unids" value="1" />
+						<SET parm="r" value="0" />
+						<SET parm="xd" value="1.8" />
+						<SET parm="xq" value="1.7" />
+						<SET parm="xld" value="0.4" />
+						<SET parm="xlq" value="0.4" />
+						<SET parm="Tldo" value="8" />
+						<SET parm="Tlqo" value="0.4" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+					<MODEL id="CtrlVeloc#Mdl:Termo" source="LIBRY">
+						<SET parm="R" value="0.05" />
+						<SET parm="Tc" value="0.01" />
+						<SET parm="Tr" value="2" />
+						<SET parm="Pref" value="0" />
+					</MODEL>
+					<MODEL id="RegTensao#Mdl:1oORD" source="LIBRY">
+						<SET parm="K" value="50" />
+						<SET parm="T" value="0.05" />
+						<SET parm="Lmn" value="-5" />
+						<SET parm="Lmx" value="5" />
+						<SET parm="Vref" value="0" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+				</MODEL>
+				<DATA />
+			</GERD>
+			<CARG name="CR2" no="2" cir="2" mdl="1" Vnom="1" Snom="25.14319" empr="">
+				<STT P="21.7" Q="12.7" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.217" />
+					<SET parm="Q" value="0.127" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<DISJ name="DJ-UG2" no01="2" no02="1" cir="1" mdl="1" Ron="0" Vnom="1" Irupt="0" norm="ON" empr="">
+				<STT sit="ON" />
+				<DATA />
+			</DISJ>
+			<MEDC>
+				<VOLT name="VOLT 2" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="2" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 2" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="2" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   GER-2" cls="1" regstr="S" empr="">
+					<CNX devc="UG2" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR GER-2" cls="1" regstr="S" empr="">
+					<CNX devc="UG2" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<EXPT name="DELT-2" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG2" stt="delt" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<EXPT name="WMAQ-2" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG2" stt="w" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<MW name="MW   CR2" cls="1" regstr="S" empr="">
+					<CNX devc="CR2" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR2" cls="1" regstr="S" empr="">
+					<CNX devc="CR2" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="3" name="Bus 03" dscr="" empr="" regi="">
+			<BARMTO id="3" name="Bus 03" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="1" Tet="-15.680895" />
+				<DATA />
+			</BARMTO>
+			<GERD name="UG3" no="3" cir="1" mdl="1" Vnom="1" Snom="75.89" empr="">
+				<STT P="-0" Q="69.0129873152" />
+				<MODEL id="GERADOR#Mdl:PV" source="LIBRY" group="LFLOW" default="S">
+					<SET parm="P" value="0" />
+					<SET parm="Vref" value="1" />
+					<SET parm="unids" value="1" />
+					<SET parm="Pmn" value="-99.99" />
+					<SET parm="Pmx" value="99.99" />
+					<SET parm="Qmn" value="-99.99" />
+					<SET parm="Qmx" value="99.99" />
+					<SET parm="CREM" value="0" />
+					<TRM iblc="VOLT" term="1" />
+				</MODEL>
+				<MODEL id="GERADOR#GRP" source="LIBRY" group="DYNAMIC" default="N">
+					<MODEL id="MaqSincr#Mdl:III" source="LIBRY">
+						<SET parm="H" value="5" />
+						<SET parm="D" value="2" />
+						<SET parm="Sbase" value="75.889" />
+						<SET parm="unids" value="1" />
+						<SET parm="r" value="0" />
+						<SET parm="xd" value="1.8" />
+						<SET parm="xq" value="1.7" />
+						<SET parm="xld" value="0.4" />
+						<SET parm="xlq" value="0.4" />
+						<SET parm="Tldo" value="8" />
+						<SET parm="Tlqo" value="0.4" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+					<MODEL id="CtrlVeloc#REF" source="LIBRY">
+						<SET parm="Pm" value="1" />
+					</MODEL>
+					<MODEL id="RegTensao#Mdl:1oORD" source="LIBRY">
+						<SET parm="K" value="50" />
+						<SET parm="T" value="0.05" />
+						<SET parm="Lmn" value="-5" />
+						<SET parm="Lmx" value="5" />
+						<SET parm="Vref" value="0" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+				</MODEL>
+				<DATA />
+			</GERD>
+			<CARG name="CR3" no="3" cir="2" mdl="1" Vnom="1" Snom="96.097034" empr="">
+				<STT P="94.2" Q="19" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.942" />
+					<SET parm="Q" value="0.19" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<MEDC>
+				<VOLT name="VOLT 3" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="3" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 3" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="3" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   GER-3" cls="1" regstr="S" empr="">
+					<CNX devc="UG3" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR GER-3" cls="1" regstr="S" empr="">
+					<CNX devc="UG3" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<EXPT name="DELT-3" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG3" stt="delt" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<EXPT name="WMAQ-3" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG3" stt="w" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<MW name="MW   CR3" cls="1" regstr="S" empr="">
+					<CNX devc="CR3" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR3" cls="1" regstr="S" empr="">
+					<CNX devc="CR3" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="8" name="Bus 08" dscr="" empr="" regi="">
+			<BARMTO id="8" name="Bus 08" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="1" Tet="-16.520652" />
+				<DATA />
+			</BARMTO>
+			<GERD name="UG8" no="8" cir="1" mdl="1" Vnom="1" Snom="7.19" empr="">
+				<STT P="-0" Q="6.53871095968" />
+				<MODEL id="GERADOR#Mdl:PV" source="LIBRY" group="LFLOW" default="S">
+					<SET parm="P" value="0" />
+					<SET parm="Vref" value="1" />
+					<SET parm="unids" value="1" />
+					<SET parm="Pmn" value="-99.99" />
+					<SET parm="Pmx" value="99.99" />
+					<SET parm="Qmn" value="-99.99" />
+					<SET parm="Qmx" value="99.99" />
+					<SET parm="CREM" value="0" />
+					<TRM iblc="VOLT" term="1" />
+				</MODEL>
+				<MODEL id="GERADOR#GRP" source="LIBRY" group="DYNAMIC" default="N">
+					<MODEL id="MaqSincr#Mdl:III" source="LIBRY">
+						<SET parm="H" value="5" />
+						<SET parm="D" value="2" />
+						<SET parm="Sbase" value="7.1863" />
+						<SET parm="unids" value="1" />
+						<SET parm="r" value="0" />
+						<SET parm="xd" value="1.8" />
+						<SET parm="xq" value="1.7" />
+						<SET parm="xld" value="0.4" />
+						<SET parm="xlq" value="0.4" />
+						<SET parm="Tldo" value="8" />
+						<SET parm="Tlqo" value="0.4" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+					<MODEL id="CtrlVeloc#REF" source="LIBRY">
+						<SET parm="Pm" value="1" />
+					</MODEL>
+					<MODEL id="RegTensao#Mdl:1oORD" source="LIBRY">
+						<SET parm="K" value="50" />
+						<SET parm="T" value="0.05" />
+						<SET parm="Lmn" value="-5" />
+						<SET parm="Lmx" value="5" />
+						<SET parm="Vref" value="0" />
+						<TRM iblc="VOLT" term="1" />
+					</MODEL>
+				</MODEL>
+				<DATA />
+			</GERD>
+			<MEDC>
+				<VOLT name="VOLT 8" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="8" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 8" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="8" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   GER-8" cls="1" regstr="S" empr="">
+					<CNX devc="UG8" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR GER-8" cls="1" regstr="S" empr="">
+					<CNX devc="UG8" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+				<EXPT name="DELT-8" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG8" stt="delt" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+				<EXPT name="WMAQ-8" cls="0.01" regstr="S" empr="">
+					<CNX devc="UG8" stt="w" />
+					<SCADA online="S" scada="0" unidd="PU" invrs="N" />
+					<DATA />
+				</EXPT>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="10" name="Bus 10" dscr="" empr="" regi="">
+			<BARMTO id="10" name="Bus 10" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.97971895" Tet="-18.961085" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR10" no="10" cir="1" mdl="1" Vnom="1" Snom="10.707007" empr="">
+				<STT P="9" Q="5.8" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.09" />
+					<SET parm="Q" value="0.058" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<MEDC>
+				<VOLT name="VOLT 10" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="10" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 10" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="10" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR10" cls="1" regstr="S" empr="">
+					<CNX devc="CR10" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR10" cls="1" regstr="S" empr="">
+					<CNX devc="CR10" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="11" name="Bus 11" dscr="" empr="" regi="">
+			<BARMTO id="11" name="Bus 11" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.98622695" Tet="-19.087288" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR11" no="11" cir="1" mdl="1" Vnom="1" Snom="3.9357337" empr="">
+				<STT P="3.5" Q="1.8" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.035" />
+					<SET parm="Q" value="0.018" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<MEDC>
+				<VOLT name="VOLT 11" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="11" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 11" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="11" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR11" cls="1" regstr="S" empr="">
+					<CNX devc="CR11" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR11" cls="1" regstr="S" empr="">
+					<CNX devc="CR11" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="12" name="Bus 12" dscr="" empr="" regi="">
+			<BARMTO id="12" name="Bus 12" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.98390191" Tet="-19.828868" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR12" no="12" cir="1" mdl="1" Vnom="1" Snom="6.306346" empr="">
+				<STT P="6.1" Q="1.6" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.061" />
+					<SET parm="Q" value="0.016" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<MEDC>
+				<VOLT name="VOLT 12" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="12" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 12" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="12" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR12" cls="1" regstr="S" empr="">
+					<CNX devc="CR12" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR12" cls="1" regstr="S" empr="">
+					<CNX devc="CR12" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="13" name="Bus 13" dscr="" empr="" regi="">
+			<BARMTO id="13" name="Bus 13" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.9790928" Tet="-19.83645" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR13" no="13" cir="1" mdl="1" Vnom="1" Snom="14.693196" empr="">
+				<STT P="13.5" Q="5.8" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.135" />
+					<SET parm="Q" value="0.058" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<DISJ name="DJ-LT13-14(1)1" no01="13" no02="1" cir="1" mdl="1" Ron="0" Vnom="1" Irupt="0" norm="ON" empr="">
+				<STT sit="ON" />
+				<DATA />
+			</DISJ>
+			<MEDC>
+				<VOLT name="VOLT 13" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="13" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 13" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="13" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR13" cls="1" regstr="S" empr="">
+					<CNX devc="CR13" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR13" cls="1" regstr="S" empr="">
+					<CNX devc="CR13" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<SUBS id="14" name="Bus 14" dscr="" empr="" regi="">
+			<BARMTO id="14" name="Bus 14" dscr="" mdl="1" Vnom="1" empr="">
+				<STT V="0.96297339" Tet="-20.274264" />
+				<DATA />
+			</BARMTO>
+			<CARG name="CR14" no="14" cir="1" mdl="1" Vnom="1" Snom="15.716552" empr="">
+				<STT P="14.9" Q="5" />
+				<MODEL id="CARGA#pcte" source="BUILT" group="LFLOW" default="S">
+					<SET parm="P" value="0.149" />
+					<SET parm="Q" value="0.05" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0" />
+				</MODEL>
+				<MODEL id="CARGA#zcte" source="BUILT" group="DYNAMIC" default="N">
+					<SET parm="P" value="0" />
+					<SET parm="Q" value="0" />
+					<SET parm="unids" value="1" />
+					<SET parm="Vo" value="1" />
+					<SET parm="Vc" value="0.7" />
+				</MODEL>
+				<DATA />
+			</CARG>
+			<DISJ name="DJ-LT13-14(1)2" no01="14" no02="1" cir="1" mdl="1" Ron="0" Vnom="1" Irupt="0" norm="ON" empr="">
+				<STT sit="ON" />
+				<DATA />
+			</DISJ>
+			<MEDC>
+				<VOLT name="VOLT 14" cmp="+" ang="N" cls="1" regstr="S" empr="">
+					<CNX no="14" />
+					<SCADA online="S" scada="0" unidd="KV" invrs="N" />
+					<DATA />
+				</VOLT>
+				<FREQ name="FREQ 14" type="B" cls="0.01" regstr="S" empr="">
+					<CNX no="14" />
+					<SCADA online="S" scada="0" unidd="Hz" invrs="N" />
+					<DATA />
+				</FREQ>
+				<MW name="MW   CR14" cls="1" regstr="S" empr="">
+					<CNX devc="CR14" trm="1" />
+					<SCADA online="S" scada="0" unidd="MW" invrs="N" />
+					<DATA />
+				</MW>
+				<MVAR name="MVAR CR14" cls="1" regstr="S" empr="">
+					<CNX devc="CR14" trm="1" />
+					<SCADA online="S" scada="0" unidd="MVAR" invrs="N" />
+					<DATA />
+				</MVAR>
+			</MEDC>
+			<NODES />
+			<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+			<DATA />
+		</SUBS>
+		<LT name="LT1-2(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 01" no="1" />
+			<CNX02 subs="Bus 02" no="2" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.0193" />
+				<SET parm="X" value="0.0592" />
+				<SET parm="B" value="0.0528" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT1-5(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 01" no="1" />
+			<CNX02 subs="Bus 05" no="5" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.05403" />
+				<SET parm="X" value="0.223" />
+				<SET parm="B" value="0.0492" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT2-3(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 02" no="2" />
+			<CNX02 subs="Bus 03" no="3" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.04699" />
+				<SET parm="X" value="0.198" />
+				<SET parm="B" value="0.0438" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT2-4(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 02" no="2" />
+			<CNX02 subs="Bus 04" no="4" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.05811" />
+				<SET parm="X" value="0.1763" />
+				<SET parm="B" value="0.0374" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT2-5(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 02" no="2" />
+			<CNX02 subs="Bus 05" no="5" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.05695" />
+				<SET parm="X" value="0.1739" />
+				<SET parm="B" value="0.034" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT3-4(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 03" no="3" />
+			<CNX02 subs="Bus 04" no="4" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.06701" />
+				<SET parm="X" value="0.171" />
+				<SET parm="B" value="0.0346" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT4-5(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 04" no="4" />
+			<CNX02 subs="Bus 05" no="5" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.01335" />
+				<SET parm="X" value="0.0421" />
+				<SET parm="B" value="0.0128" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT6-11(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 05" no="6" />
+			<CNX02 subs="Bus 11" no="11" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.09498" />
+				<SET parm="X" value="0.1989" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT6-12(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 05" no="6" />
+			<CNX02 subs="Bus 12" no="12" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.12291" />
+				<SET parm="X" value="0.2558" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT6-13(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 05" no="6" />
+			<CNX02 subs="Bus 13" no="13" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.06615" />
+				<SET parm="X" value="0.1303" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT7-8(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 04" no="7" />
+			<CNX02 subs="Bus 08" no="8" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0" />
+				<SET parm="X" value="0.1761" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT7-9(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 04" no="7" />
+			<CNX02 subs="Bus 04" no="9" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0" />
+				<SET parm="X" value="0.11" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT9-10(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 04" no="9" />
+			<CNX02 subs="Bus 10" no="10" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.03181" />
+				<SET parm="X" value="0.0845" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT9-14(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 04" no="9" />
+			<CNX02 subs="Bus 14" no="14" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.12711" />
+				<SET parm="X" value="0.2704" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT10-11(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 10" no="10" />
+			<CNX02 subs="Bus 11" no="11" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.08205" />
+				<SET parm="X" value="0.1921" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT12-13(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 12" no="12" />
+			<CNX02 subs="Bus 13" no="13" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.22092" />
+				<SET parm="X" value="0.1999" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<LT name="LT13-14(1)" cir="1" mdl="1" Vnom="1" Snom="0" Smax="0" empr="">
+			<CNX01 subs="Bus 13" no="1" />
+			<CNX02 subs="Bus 14" no="1" />
+			<MODEL id="LT#pi" source="BUILT" group="LFLOW" default="S">
+				<SET parm="R" value="0.17093" />
+				<SET parm="X" value="0.348" />
+				<SET parm="B" value="0" />
+			</MODEL>
+			<DATA />
+		</LT>
+		<CANVAS xmin="0" ymin="0" xmax="2000" ymax="2000" />
+		<DATA />
+	</AREA>
+</SEE>
