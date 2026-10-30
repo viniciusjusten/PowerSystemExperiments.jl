@@ -507,7 +507,7 @@ inputs = nsLFT.Inputs(;
     fb = PSD.base_frequency(system),
     integration_step = 0.01,
     simulation_horizon = 10.0,
-    tolerance = 1e-10,
+    tolerance = 1e-6,
     buses = buses,
     circuits = circuits,
     generators = generators,
@@ -516,7 +516,11 @@ inputs = nsLFT.Inputs(;
 )
 output_dir = "results-1d1q-gov-avr-trip-ug2"
 output_path = joinpath(nsLFT.case_path(inputs), output_dir)
+tic = time()
 results = nsLFT.solve(inputs; output_path)
+toc = time()
+
+println("Simulation time: $(round(toc - tic, digits = 2)) seconds")
 
 # nsLFT writes the results to <case>/results, and the dashboard is built from those files
 if !isdir(output_path)
