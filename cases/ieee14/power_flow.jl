@@ -3,7 +3,7 @@
 #   julia --project=. cases/ieee14/power_flow.jl
 # and leaves system, solution and generation in memory for low_freq_transient.jl
 
-import PowerFlow
+import PowerFlow as PF
 import PowerSystemData as PSD
 import PowerSystemExperiments
 
@@ -244,7 +244,7 @@ PSD.add_load!(system; name = "CR12", bus_idx = 12, active_power = 0.061, reactiv
 PSD.add_load!(system; name = "CR13", bus_idx = 13, active_power = 0.135, reactive_power = 0.058)
 PSD.add_load!(system; name = "CR14", bus_idx = 14, active_power = 0.149, reactive_power = 0.05)
 
-solution = PowerFlow.run_acpf(system)
+solution = PF.run_acpf(system)
 # the standard power flow is solved with NonlinearSolve.jl, so the status is its return code
 if Symbol(solution.termination_status) != :Success
     error("The power flow did not converge, the solver returned $(solution.termination_status).")

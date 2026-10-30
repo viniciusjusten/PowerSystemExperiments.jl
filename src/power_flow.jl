@@ -1,7 +1,7 @@
 # Complex power delivered by each generator, which is the power injected into the network at its bus plus the
 # power of the loads of the bus. The generator powers of the solution are not used because PowerFlow.jl returns
 # the scheduled active power for the slack generator, not the one that closes the balance
-function generator_powers(system::PSD.Input, solution::PowerFlow.ACSolution)
+function generator_powers(system::PSD.Input, solution::PF.ACSolution)
     Ybus = PSD.ybus(system)
     bus_generation = PSD.power_injection(solution.voltage, solution.voltage_angle, Ybus)
     for load_idx in 1:PSD.num_loads(system)

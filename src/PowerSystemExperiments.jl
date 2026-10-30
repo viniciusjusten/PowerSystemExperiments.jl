@@ -1,6 +1,6 @@
 module PowerSystemExperiments
 
-import PowerFlow
+import PowerFlow as PF
 import PowerSystemData as PSD
 
 include("power_flow.jl")
