@@ -434,6 +434,7 @@ button { font: inherit; }
         <span><svg width="26" height="12"><line x1="1" y1="6" x2="25" y2="6" stroke="#64748b" stroke-width="1.6"/></svg>Linha</span>
         <span><svg width="26" height="16"><line x1="1" y1="8" x2="25" y2="8" stroke="#64748b" stroke-width="1.6"/><circle cx="10" cy="8" r="6" fill="#fff" stroke="#122945" stroke-width="1.6"/><circle cx="16" cy="8" r="6" fill="#fff" stroke="#122945" stroke-width="1.6"/></svg>Transformador</span>
         <span><svg width="20" height="20"><circle cx="10" cy="10" r="8" fill="#fff" stroke="#122945" stroke-width="1.6"/><path d="M5 10 Q7.5 5 10 10 T15 10" fill="none" stroke="#122945" stroke-width="1.6"/></svg>Gerador</span>
+        <span><svg width="20" height="20"><rect x="1" y="1" width="18" height="18" fill="#fff" stroke="#122945" stroke-width="1.6"/><line x1="1" y1="19" x2="19" y2="1" stroke="#122945" stroke-width="1.2"/><line x1="3.5" y1="5" x2="8.5" y2="5" stroke="#122945" stroke-width="1.2"/><line x1="3.5" y1="7.5" x2="8.5" y2="7.5" stroke="#122945" stroke-width="1.2"/><path d="M11.5 14.5 Q13 12 14.5 14.5 T17.5 14.5" fill="none" stroke="#122945" stroke-width="1.2"/></svg>IBR</span>
         <span><svg width="12" height="20"><line x1="6" y1="1" x2="6" y2="13" stroke="#122945" stroke-width="1.6"/><polygon points="1,12 11,12 6,19" fill="#122945"/></svg>Carga</span>
         <span><svg width="18" height="20"><line x1="9" y1="1" x2="9" y2="7" stroke="#122945" stroke-width="1.6"/><line x1="3" y1="7" x2="15" y2="7" stroke="#122945" stroke-width="1.6"/><line x1="3" y1="11" x2="15" y2="11" stroke="#122945" stroke-width="1.6"/><line x1="9" y1="11" x2="9" y2="16" stroke="#122945" stroke-width="1.6"/><line x1="5" y1="16" x2="13" y2="16" stroke="#122945" stroke-width="1.6"/><line x1="7" y1="19" x2="11" y2="19" stroke="#122945" stroke-width="1.6"/></svg>Shunt</span>
         <span><svg width="14" height="20"><path d="M9 1 L3 11 L7 11 L5 19 L12 8 L8 8 Z" fill="#d1495b"/></svg>Evento</span>
@@ -545,15 +546,20 @@ function preferredVariables() {
 }
 
 function classOrder() {
-  return ["generator", "bus"];
+  return ["generator", "ibr", "bus"];
 }
 
 function fieldOrder() {
-  return ["delta", "omega", "Pmec", "Pref", "Pele", "efd", "eq_prime", "ed_prime", "id", "iq", "V_abs", "theta", "Vr", "Vi"];
+  return [
+    "delta", "omega", "Pmec", "Pref", "Pele", "efd", "eq_prime", "ed_prime", "id", "iq",
+    "Pmed", "Qmed", "Vt", "Pset", "Pext", "xp", "yp", "Vref", "Qref", "Qext", "xq", "yq",
+    "Ip", "Iq", "Ip_ef", "Ip_cmd", "Iq_cmd", "Ip_cmd_pre", "Iq_cmd_pre", "Ip_max", "Iq_max", "iq_inj",
+    "V_abs", "theta", "Vr", "Vi",
+  ];
 }
 
 function unitOrder() {
-  return ["pu", "MW", "Hz", "rad", "deg"];
+  return ["pu", "MW", "Mvar", "Hz", "rad", "deg"];
 }
 
 function fieldInfo() {
@@ -561,13 +567,35 @@ function fieldInfo() {
     delta: { symbol: "δ", label: "Ângulo do rotor" },
     omega: { symbol: "ω", label: "Velocidade do rotor" },
     Pmec: { symbol: "Pmec", label: "Potência mecânica" },
-    Pref: { symbol: "Pref", label: "Potência de referência do regulador" },
+    Pref: { symbol: "Pref", label: "Potência ativa de referência" },
     Pele: { symbol: "Pele", label: "Potência elétrica" },
     efd: { symbol: "Efd", label: "Tensão de campo" },
     eq_prime: { symbol: "E′q", label: "Tensão transitória de eixo q" },
     ed_prime: { symbol: "E′d", label: "Tensão transitória de eixo d" },
     id: { symbol: "id", label: "Corrente de eixo d" },
     iq: { symbol: "iq", label: "Corrente de eixo q" },
+    Vt: { symbol: "Vt", label: "Tensão terminal" },
+    Vref: { symbol: "Vref", label: "Tensão de referência" },
+    Pmed: { symbol: "Pmed", label: "Potência ativa injetada" },
+    Qmed: { symbol: "Qmed", label: "Potência reativa injetada" },
+    Pset: { symbol: "Pset", label: "Potência ativa programada" },
+    Pext: { symbol: "Pext", label: "Saída limitada do PI de potência ativa" },
+    xp: { symbol: "xp", label: "Parte proporcional do PI de potência ativa" },
+    yp: { symbol: "yp", label: "Parte integral do PI de potência ativa" },
+    Qref: { symbol: "Qref", label: "Potência reativa de referência" },
+    Qext: { symbol: "Qext", label: "Saída limitada do PI de tensão" },
+    xq: { symbol: "xq", label: "Parte proporcional do PI de tensão" },
+    yq: { symbol: "yq", label: "Parte integral do PI de tensão" },
+    Ip: { symbol: "Ip", label: "Corrente ativa do conversor" },
+    Iq: { symbol: "Iq", label: "Corrente reativa do conversor" },
+    Ip_ef: { symbol: "Ip ef", label: "Corrente ativa injetada, com o ganho de baixa tensão" },
+    Ip_cmd: { symbol: "Ip cmd", label: "Comando de corrente ativa" },
+    Iq_cmd: { symbol: "Iq cmd", label: "Comando de corrente reativa" },
+    Ip_cmd_pre: { symbol: "Ip cmd pré", label: "Comando de corrente ativa antes do limite" },
+    Iq_cmd_pre: { symbol: "Iq cmd pré", label: "Comando de corrente reativa antes do limite" },
+    Ip_max: { symbol: "Ip max", label: "Limite da corrente ativa" },
+    Iq_max: { symbol: "Iq max", label: "Limite da corrente reativa" },
+    iq_inj: { symbol: "iq inj", label: "Injeção de corrente reativa no afundamento" },
     V_abs: { symbol: "|V|", label: "Módulo da tensão" },
     theta: { symbol: "θ", label: "Ângulo da tensão" },
     Vr: { symbol: "Vr", label: "Tensão, parte real" },
@@ -586,6 +614,9 @@ function describeField(field) {
 function classLabel(cls) {
   if (cls === "generator") {
     return "Geradores";
+  }
+  if (cls === "ibr") {
+    return "IBRs";
   }
   if (cls === "bus") {
     return "Barras";
@@ -1982,6 +2013,56 @@ function quantityInfo() {
       H: { symbol: "H", label: "Constante de inércia" },
       D: { symbol: "D", label: "Coeficiente de amortecimento" },
     },
+    ibr: {
+      P0: { symbol: "P0", label: "Potência ativa do fluxo de potência" },
+      Q0: { symbol: "Q0", label: "Potência reativa do fluxo de potência" },
+      Vt: { symbol: "Vt", label: "Tensão terminal" },
+      Pset: { symbol: "Pset", label: "Potência ativa programada" },
+      Pmed: { symbol: "Pmed", label: "Potência ativa injetada" },
+      xp: { symbol: "xp", label: "Parte proporcional do PI de potência ativa" },
+      yp: { symbol: "yp", label: "Parte integral do PI de potência ativa" },
+      Pext: { symbol: "Pext", label: "Saída limitada do PI de potência ativa" },
+      Pref: { symbol: "Pref", label: "Potência ativa de referência" },
+      Vref: { symbol: "Vref", label: "Tensão de referência" },
+      Qmed: { symbol: "Qmed", label: "Potência reativa injetada" },
+      xq: { symbol: "xq", label: "Parte proporcional do PI de tensão" },
+      yq: { symbol: "yq", label: "Parte integral do PI de tensão" },
+      Qext: { symbol: "Qext", label: "Saída limitada do PI de tensão" },
+      Qref: { symbol: "Qref", label: "Potência reativa de referência" },
+      iq_inj: { symbol: "iq inj", label: "Injeção de corrente reativa no afundamento" },
+      Ip_cmd_pre: { symbol: "Ip cmd pré", label: "Comando de corrente ativa antes do limite" },
+      Iq_cmd_pre: { symbol: "Iq cmd pré", label: "Comando de corrente reativa antes do limite" },
+      Ip_max: { symbol: "Ip max", label: "Limite da corrente ativa" },
+      Iq_max: { symbol: "Iq max", label: "Limite da corrente reativa" },
+      Ip_cmd: { symbol: "Ip cmd", label: "Comando de corrente ativa" },
+      Iq_cmd: { symbol: "Iq cmd", label: "Comando de corrente reativa" },
+      Ip: { symbol: "Ip", label: "Corrente ativa do conversor" },
+      Iq: { symbol: "Iq", label: "Corrente reativa do conversor" },
+      Ip_ef: { symbol: "Ip ef", label: "Corrente ativa injetada, com o ganho de baixa tensão" },
+      Sn: { symbol: "Sn", label: "Potência nominal" },
+      D: { symbol: "D", label: "Ganho do droop de frequência, 1/R" },
+      Kpg: { symbol: "Kpg", label: "Ganho proporcional do PI de potência ativa" },
+      Kig: { symbol: "Kig", label: "Ganho integral do PI de potência ativa" },
+      Pmax: { symbol: "Pmax", label: "Limite superior do PI de potência ativa" },
+      Pmin: { symbol: "Pmin", label: "Limite inferior do PI de potência ativa" },
+      Tp: { symbol: "Tp", label: "Constante de tempo da referência de potência ativa" },
+      Kc: { symbol: "Kc", label: "Droop de reativo do controle de tensão" },
+      Kp: { symbol: "Kp", label: "Ganho proporcional do PI de tensão" },
+      Ki: { symbol: "Ki", label: "Ganho integral do PI de tensão" },
+      Qmax: { symbol: "Qmax", label: "Limite superior do PI de tensão" },
+      Qmin: { symbol: "Qmin", label: "Limite inferior do PI de tensão" },
+      Tq: { symbol: "Tq", label: "Constante de tempo da referência de potência reativa" },
+      Vfrz: { symbol: "Vfrz", label: "Tensão abaixo da qual o integrador do PI de tensão congela" },
+      Vdip: { symbol: "Vdip", label: "Tensão abaixo da qual atua a injeção de reativo e o integrador de potência ativa congela" },
+      Kqv: { symbol: "Kqv", label: "Ganho da injeção de corrente reativa" },
+      Iqh1: { symbol: "Iqh1", label: "Limite superior da injeção de corrente reativa" },
+      Iql1: { symbol: "Iql1", label: "Limite inferior da injeção de corrente reativa" },
+      Imax: { symbol: "Imax", label: "Corrente máxima do conversor" },
+      Tg: { symbol: "Tg", label: "Constante de tempo do controle de corrente" },
+      Rrpwr: { symbol: "Rrpwr", label: "Taxa máxima de subida da corrente ativa" },
+      lv0: { symbol: "lv0", label: "Tensão abaixo da qual o ganho de baixa tensão é zero" },
+      lv1: { symbol: "lv1", label: "Tensão acima da qual o ganho de baixa tensão é um" },
+    },
     load: {
       P: { symbol: "P", label: "Potência ativa na tensão de t = 0" },
       Q: { symbol: "Q", label: "Potência reativa na tensão de t = 0" },
@@ -2018,6 +2099,13 @@ function modelInfo() {
       name: "1d1q",
       description: "Modelo de dois eixos, com as tensões transitórias E′d e E′q dinâmicas, a tensão de campo Efd constante e a equação de oscilação.",
     },
+    IBR: {
+      name: "Seguidor de rede",
+      description:
+        "Fonte de corrente simplificada dos modelos WECC REPC_A, REEC_B e REGC_A. Controle de potência ativa com droop de frequência " +
+        "e controle de tensão com droop de reativo, lógica de corrente com prioridade P ou Q e injeção de reativo no afundamento, e " +
+        "conversor com atraso Tg, rampa Rrpwr na subida da corrente ativa e ganho de baixa tensão. A frequência vem do estimador da barra.",
+    },
     ConstantZLoad: {
       name: "Impedância constante",
       description: "Admitância fixa calculada com P0 e Q0 na tensão do fluxo de potência, de modo que a potência varia com |V|².",
@@ -2047,6 +2135,7 @@ function eventTypeLabel(type) {
     ShortCircuitRemoval: "Eliminação do curto-circuito",
     CircuitTrip: "Desligamento de circuito",
     GeneratorTrip: "Desligamento de gerador",
+    IBRTrip: "Desligamento de IBR",
     LoadChange: "Variação de carga",
   };
   if (type in labels) {
@@ -2068,10 +2157,21 @@ function kindLabel(kind, element) {
   if (kind === "generator") {
     return "Gerador";
   }
+  if (kind === "ibr") {
+    return "IBR";
+  }
   if (kind === "load") {
     return "Carga";
   }
   return kind;
+}
+
+// The descriptions written before the IBRs existed have no list of them.
+function ibrsOf(description) {
+  if (Array.isArray(description.ibrs)) {
+    return description.ibrs;
+  }
+  return [];
 }
 
 function collectionOf(description, kind) {
@@ -2083,6 +2183,9 @@ function collectionOf(description, kind) {
   }
   if (kind === "generator") {
     return description.generators;
+  }
+  if (kind === "ibr") {
+    return ibrsOf(description);
   }
   if (kind === "load") {
     return description.loads;
@@ -2152,7 +2255,7 @@ function eventTarget(description, eventIndex) {
   let event = description.perturbations[eventIndex];
   for (let depth = 0; depth < 3 && event !== undefined; depth++) {
     const targets = event.targets;
-    for (const kind of ["bus", "circuit", "generator", "load"]) {
+    for (const kind of ["bus", "circuit", "generator", "ibr", "load"]) {
       if (kind in targets) {
         return { kind: kind, index: targets[kind] - 1 };
       }
@@ -2402,9 +2505,10 @@ function circuitEnds(view, index) {
   return { a: attachPoint(from, to, offset), b: attachPoint(to, from, offset) };
 }
 
-// Generators hang above their bar and loads and shunts below it, spread when a bus has more than one.
+// Generators and IBRs hang above their bar and loads and shunts below it, spread when a bus has more than one.
 function decorationLayout(view) {
   const description = view.description;
+  const ibrs = ibrsOf(description);
   const above = [];
   const below = [];
   for (let i = 0; i < description.buses.length; i++) {
@@ -2412,7 +2516,10 @@ function decorationLayout(view) {
     below.push([]);
   }
   for (let g = 0; g < description.generators.length; g++) {
-    above[description.generators[g].bus - 1].push(g);
+    above[description.generators[g].bus - 1].push({ kind: "generator", index: g });
+  }
+  for (let r = 0; r < ibrs.length; r++) {
+    above[ibrs[r].bus - 1].push({ kind: "ibr", index: r });
   }
   for (let l = 0; l < description.loads.length; l++) {
     below[description.loads[l].bus - 1].push({ kind: "load", index: l });
@@ -2425,14 +2532,21 @@ function decorationLayout(view) {
   }
 
   const generators = [];
+  const ibrPositions = [];
   const loads = [];
   const shunts = [];
   for (let b = 0; b < description.buses.length; b++) {
     const bus = view.buses[b];
     const aboveCount = above[b].length;
     for (let j = 0; j < aboveCount; j++) {
+      const item = above[b][j];
       const x = bus.x + (j - (aboveCount - 1) / 2) * 30;
-      generators[above[b][j]] = { x: x, y: bus.y - 38, busY: bus.y };
+      const position = { x: x, y: bus.y - 38, busY: bus.y };
+      if (item.kind === "generator") {
+        generators[item.index] = position;
+      } else {
+        ibrPositions[item.index] = position;
+      }
     }
     const belowCount = below[b].length;
     for (let j = 0; j < belowCount; j++) {
@@ -2445,7 +2559,7 @@ function decorationLayout(view) {
       }
     }
   }
-  return { generators: generators, loads: loads, shunts: shunts };
+  return { generators: generators, ibrs: ibrPositions, loads: loads, shunts: shunts };
 }
 
 // ---------------------------------------------------------------- Diagram drawing
@@ -2487,6 +2601,23 @@ function generatorSvg(position, index) {
   svg += `<line class="dg-ink" x1="${x}" y1="${position.busY}" x2="${x}" y2="${y + radius}" stroke-width="1.6"/>`;
   svg += `<circle class="dg-ink dg-device" cx="${x}" cy="${y}" r="${radius}"/>`;
   svg += `<path class="dg-ink" d="M${x - 6} ${y} Q${x - 3} ${y - 6} ${x} ${y} T${x + 6} ${y}" stroke-width="1.6"/>`;
+  svg += "</g>";
+  return svg;
+}
+
+// The usual symbol of an inverter: a square cut by a diagonal, with the direct current sign in the upper left
+// corner and the alternating current sign in the lower right one.
+function ibrSvg(position, index) {
+  const x = position.x;
+  const y = position.y;
+  const half = 11;
+  let svg = `<g class="dg-el${selectedClass("ibr", index)}" data-kind="ibr" data-index="${index}">`;
+  svg += `<line class="dg-ink" x1="${x}" y1="${position.busY}" x2="${x}" y2="${y + half}" stroke-width="1.6"/>`;
+  svg += `<rect class="dg-ink dg-device" x="${x - half}" y="${y - half}" width="${2 * half}" height="${2 * half}"/>`;
+  svg += `<line class="dg-ink" x1="${x - half}" y1="${y + half}" x2="${x + half}" y2="${y - half}" stroke-width="1.2"/>`;
+  svg += `<line class="dg-ink" x1="${x - 8}" y1="${y - 6}" x2="${x - 2}" y2="${y - 6}" stroke-width="1.2"/>`;
+  svg += `<line class="dg-ink" x1="${x - 8}" y1="${y - 3}" x2="${x - 2}" y2="${y - 3}" stroke-width="1.2"/>`;
+  svg += `<path class="dg-ink" d="M${x + 2} ${y + 5} Q${x + 3.5} ${y + 2} ${x + 5} ${y + 5} T${x + 8} ${y + 5}" stroke-width="1.2"/>`;
   svg += "</g>";
   return svg;
 }
@@ -2574,6 +2705,9 @@ function eventSvg(view, eventIndex) {
   } else if (target.kind === "generator") {
     const position = view.decorations.generators[target.index];
     mark = crossSvg(position.x + 11, position.y - 11);
+  } else if (target.kind === "ibr") {
+    const position = view.decorations.ibrs[target.index];
+    mark = crossSvg(position.x + 11, position.y - 11);
   } else if (target.kind === "load") {
     const position = view.decorations.loads[target.index];
     mark = crossSvg(position.x + 9, position.busY + 24);
@@ -2618,6 +2752,9 @@ function drawDiagram() {
   }
   for (let g = 0; g < description.generators.length; g++) {
     svg += generatorSvg(view.decorations.generators[g], g);
+  }
+  for (let r = 0; r < view.decorations.ibrs.length; r++) {
+    svg += ibrSvg(view.decorations.ibrs[r], r);
   }
   for (let l = 0; l < description.loads.length; l++) {
     svg += loadSvg(view.decorations.loads[l], l);
@@ -2694,7 +2831,13 @@ function renderFacts(caseData) {
   html += factHtml("Base", formatValue(Sb) + " MVA · " + formatValue(fb) + " Hz");
   html += factHtml("Integração", "Δt " + formatValue(step) + " s · T " + formatValue(horizon) + " s");
   html += factHtml("Rede", description.buses.length + " barras · " + description.circuits.length + " circuitos");
-  html += factHtml("Injeções", description.generators.length + " geradores · " + description.loads.length + " cargas");
+  let injections = description.generators.length + " geradores · ";
+  const ibrCount = ibrsOf(description).length;
+  if (ibrCount > 0) {
+    injections += ibrCount + " IBRs · ";
+  }
+  injections += description.loads.length + " cargas";
+  html += factHtml("Injeções", injections);
   html += factHtml("Modelo dos geradores", models.join(", "));
   facts.innerHTML = html;
 }
@@ -2778,6 +2921,12 @@ function connectionsHtml(description, kind, index) {
         chips += elementChip("generator", g, description.generators[g].name);
       }
     }
+    const ibrs = ibrsOf(description);
+    for (let r = 0; r < ibrs.length; r++) {
+      if (ibrs[r].bus - 1 === index) {
+        chips += elementChip("ibr", r, ibrs[r].name);
+      }
+    }
     for (let l = 0; l < description.loads.length; l++) {
       if (description.loads[l].bus - 1 === index) {
         chips += elementChip("load", l, description.loads[l].name);
@@ -2824,7 +2973,7 @@ function elementEventsHtml(description, kind, index) {
 
 function modelHtml(kind, element) {
   let model = null;
-  if (kind === "generator" || kind === "load") {
+  if (kind === "generator" || kind === "ibr" || kind === "load") {
     model = element.model;
   } else if (kind === "circuit") {
     model = element.type;
@@ -2834,6 +2983,12 @@ function modelHtml(kind, element) {
   }
   const info = describeModel(model);
   let html = `<h4>Modelo</h4><span class="badge">${escapeHtml(info.name)}</span>`;
+  if (kind === "ibr") {
+    html += ` <span class="badge">Prioridade ${escapeHtml(element.priority)}</span>`;
+    if (element.battery) {
+      html += ' <span class="badge">Bateria</span>';
+    }
+  }
   if (info.description !== "") {
     html += `<p class="model-text">${escapeHtml(info.description)}</p>`;
   }
@@ -2863,6 +3018,8 @@ function renderDetails(caseData) {
     parametersTitle = "Dados de entrada";
   } else if (selected.kind === "generator") {
     parametersNote = '<p class="section-note">Valores na base da máquina, como estão nos dados do caso.</p>';
+  } else if (selected.kind === "ibr") {
+    parametersNote = '<p class="section-note">Valores na base do IBR, como estão nos dados do caso.</p>';
   } else if (selected.kind === "circuit") {
     parametersNote = '<p class="section-note">Valores em pu na base do sistema.</p>';
   }
@@ -2950,6 +3107,10 @@ function diagramTooltipHtml(description, kind, index) {
     rows += tooltipRow("P", formatFixed(quantityValue(element.initial, "P_terminal", "MW"), 2) + " MW");
     rows += tooltipRow("Q", formatFixed(quantityValue(element.initial, "Q_terminal", "Mvar"), 2) + " Mvar");
     rows += tooltipRow("Modelo", describeModel(element.model).name);
+  } else if (kind === "ibr") {
+    rows += tooltipRow("P", formatFixed(quantityValue(element.initial, "Pmed", "MW"), 2) + " MW");
+    rows += tooltipRow("Q", formatFixed(quantityValue(element.initial, "Qmed", "Mvar"), 2) + " Mvar");
+    rows += tooltipRow("Prioridade", element.priority);
   } else if (kind === "load") {
     rows += tooltipRow("P", formatFixed(quantityValue(element.initial, "P", "MW"), 2) + " MW");
     rows += tooltipRow("Q", formatFixed(quantityValue(element.initial, "Q", "Mvar"), 2) + " Mvar");
