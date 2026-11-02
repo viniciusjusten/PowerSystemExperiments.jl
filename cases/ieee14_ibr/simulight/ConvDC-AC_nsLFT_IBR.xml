@@ -1,0 +1,267 @@
+   <!-- ******************************************************************************** -->
+   <!-- Grid following IBR of nsLFT, written as a user model of Simulight. Simulight reads -->
+   <!-- user models only from its model library, so this MODEL element must be pasted in -->
+   <!-- LIBMODELS.xml, before the closing tag </LIB_MODELS>.                              -->
+   <!-- ******************************************************************************** -->
+
+   <MODEL id="ConvDC-AC#Mdl:nsLFT_IBR"   source="USERS" group="DYNAMIC" mdl="1" default="N">
+   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   <!-- Grid following IBR simplified from WECC REPC_A, REEC_B and REGC_A, with the same   -->
+   <!-- blocks as the IBR of nsLFT (src/formulation/ibr) and the frequency estimation of   -->
+   <!-- its bus (src/formulation/bus_freq_estimation.jl, FilteredAngleDerivative).         -->
+   <!-- Every quantity is in the IBR base Sbase, and the injection is converted to the     -->
+   <!-- system base at the network interface. Ip is in phase with the terminal voltage and -->
+   <!-- Iq > 0 injects reactive power, so P = Vt * Ip and Q = Vt * Iq.                     -->
+   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+      <PARM id="Sbase"   type="PARAMETER" value="100"   unids="MVA"  print="S" />
+      <PARM id="unids"   type="PARAMETER" value="1"     unids=" "    print="S" />
+      <PARM id="battery" type="PARAMETER" value="0"     unids="1/0"  print="S" />
+      <!-- Frequency estimation of the bus -->
+      <PARM id="Tf"      type="PARAMETER" value="0.05"  unids="s"    print="S" />
+      <PARM id="Tw"      type="PARAMETER" value="0.1"   unids="s"    print="S" />
+      <!-- Plant control, active power -->
+      <PARM id="D"       type="PARAMETER" value="20.0"  unids="pu"   print="S" />
+      <PARM id="Kpg"     type="PARAMETER" value="0.5"   unids=" "    print="S" />
+      <PARM id="Kig"     type="PARAMETER" value="2.0"   unids="1/s"  print="S" />
+      <PARM id="Pmax"    type="PARAMETER" value="1.0"   unids="pu"   print="S" />
+      <PARM id="Pmin"    type="PARAMETER" value="0.0"   unids="pu"   print="S" />
+      <PARM id="Tp"      type="PARAMETER" value="0.1"   unids="s"    print="S" />
+      <!-- Plant control, voltage -->
+      <PARM id="Kc"      type="PARAMETER" value="0.02"  unids="pu"   print="S" />
+      <PARM id="Kp"      type="PARAMETER" value="2.0"   unids=" "    print="S" />
+      <PARM id="Ki"      type="PARAMETER" value="10.0"  unids="1/s"  print="S" />
+      <PARM id="Qmax"    type="PARAMETER" value="+1.0"  unids="pu"   print="S" />
+      <PARM id="Qmin"    type="PARAMETER" value="-1.0"  unids="pu"   print="S" />
+      <PARM id="Tq"      type="PARAMETER" value="0.05"  unids="s"    print="S" />
+      <PARM id="Vfrz"    type="PARAMETER" value="0.7"   unids="pu"   print="S" />
+      <!-- Current logic. Pqflag = 1 gives the priority to Ip and Pqflag = 0 to Iq, as in REEC_B -->
+      <PARM id="Vdip"    type="PARAMETER" value="0.9"   unids="pu"   print="S" />
+      <PARM id="Kqv"     type="PARAMETER" value="2.0"   unids=" "    print="S" />
+      <PARM id="Iqh1"    type="PARAMETER" value="+1.0"  unids="pu"   print="S" />
+      <PARM id="Iql1"    type="PARAMETER" value="-1.0"  unids="pu"   print="S" />
+      <PARM id="Imax"    type="PARAMETER" value="1.1"   unids="pu"   print="S" />
+      <PARM id="Pqflag"  type="PARAMETER" value="0"     unids="1/0"  print="S" />
+      <!-- Converter -->
+      <PARM id="Tg"      type="PARAMETER" value="0.02"  unids="s"    print="S" />
+      <PARM id="Rrpwr"   type="PARAMETER" value="2.0"   unids="pu/s" print="S" />
+      <PARM id="lv0"     type="PARAMETER" value="0.4"   unids="pu"   print="S" />
+      <PARM id="lv1"     type="PARAMETER" value="0.8"   unids="pu"   print="S" />
+      <!-- References, which the initial conditions set from the network at t = 0 -->
+      <PARM id="Pset"    type="REFERENCE" value="0.0"   unids="pu"   print="S" />
+      <PARM id="Vref"    type="REFERENCE" value="1.0"   unids="pu"   print="S" />
+      <!-- The terminal voltage at t = 0, which the reactive current injection takes as its reference -->
+      <PARM id="V0"      type="PARAMETER" value="1.0"   unids="pu"   print="N" />
+      <PARM id="Ggrnd"   type="PARAMETER" value="0.000001"           print="N" />
+      <CONS id="" out="zero"   value="0.0" />
+      <CONS id="" out="one"    value="1.0" />
+      <CONS id="" out="-inf"   value="-99999" />
+      <CONS id="" out="dIpmax" value="Rrpwr*Tg" />
+      <!-- Terminal voltage, in magnitude and angle in rad -->
+      <TENS id="VOLT" type="POLAR" term="1" mdl="1" out1="Vt" out2="delt" />
+
+      <!-- Frequency estimation. The angle in pu of the base frequency passes the filtered -->
+      <!-- derivative s / (1 + s Tf), which gives the frequency deviation, and the lag      -->
+      <!-- 1 / (1 + s Tw) filters it.                                                       -->
+      <GANH id="" inp="delt" out="thetapu" stt="NO" K="1.0/(2*{pi}*{Hzbase})" />
+      <WSHT id="" inp="thetapu" out="dfest" stt="1" K="1.0" P="1.0" T="Tf" />
+      <LAG  id="" inp="dfest" out="dfestf" stt="2" K="1.0" P="1.0" T="Tw" />
+      <SOMD id="" out="fest" stt="NO">
+         <ADD sgnl="+">one</ADD>
+         <ADD sgnl="+">dfestf</ADD>
+      </SOMD>
+
+      <!-- Voltage dip, which turns on the reactive current injection and freezes the -->
+      <!-- integrator of the active power PI.                                          -->
+      <LT id="" op1="Vt" op2="Vdip" out="dip" />
+
+      <!-- Active power control with frequency droop and PI. Pmed is the power that -->
+      <!-- reaches the network, Vt * Ip_ef.                                          -->
+      <SOMD id="" out="one-fest" stt="NO">
+         <ADD sgnl="+">one</ADD>
+         <ADD sgnl="-">fest</ADD>
+      </SOMD>
+      <GANH id="" inp="one-fest" out="Pdrp" stt="NO" K="D" />
+      <SOMD id="" out="ep" stt="NO">
+         <ADD sgnl="+">Pdrp</ADD>
+         <ADD sgnl="+">Pset</ADD>
+         <ADD sgnl="-">Pmed</ADD>
+      </SOMD>
+      <GANH id="" inp="ep" out="xp" stt="NO" K="Kpg" />
+      <SOMD id="" out="Psum" stt="NO">
+         <ADD sgnl="+">xp</ADD>
+         <ADD sgnl="+">yp</ADD>
+      </SOMD>
+      <LIMT id="" inp="Psum" out="Pext" lmin="Pmin" lmax="Pmax" />
+      <!-- The integrator stops while the PI output is at a limit and the error pushes it -->
+      <!-- further out, and during the voltage dip.                                      -->
+      <GE  id="" op1="Psum" op2="Pmax" out="Psum_at_Pmax" />
+      <GT  id="" op1="ep"   op2="zero" out="ep_positive" />
+      <AND id="" op1="Psum_at_Pmax" op2="ep_positive" out="Pwindup_up" />
+      <LE  id="" op1="Psum" op2="Pmin" out="Psum_at_Pmin" />
+      <LT  id="" op1="ep"   op2="zero" out="ep_negative" />
+      <AND id="" op1="Psum_at_Pmin" op2="ep_negative" out="Pwindup_dn" />
+      <OR  id="" op1="Pwindup_up" op2="Pwindup_dn" out="Pwindup" />
+      <OR  id="" op1="Pwindup" op2="dip" out="yp_frozen" />
+      <NOT id="" inp="yp_frozen" out="yp_runs" />
+      <MULT id="" out="@yp" stt="NO">
+         <ADD>yp_runs</ADD>
+         <ADD>ep</ADD>
+      </MULT>
+      <INTG id="" inp="@yp" out="yp" stt="3" K="Kig" />
+      <LAG  id="" inp="Pext" out="Pref" stt="4" K="1.0" P="1.0" T="Tp" />
+
+      <!-- Reactive power control with voltage droop Kc and PI -->
+      <GANH id="" inp="Qmed" out="Kc*Qmed" stt="NO" K="Kc" />
+      <SOMD id="" out="eq" stt="NO">
+         <ADD sgnl="+">Vref</ADD>
+         <ADD sgnl="-">Vt</ADD>
+         <ADD sgnl="-">Kc*Qmed</ADD>
+      </SOMD>
+      <GANH id="" inp="eq" out="xq" stt="NO" K="Kp" />
+      <SOMD id="" out="Qsum" stt="NO">
+         <ADD sgnl="+">xq</ADD>
+         <ADD sgnl="+">yq</ADD>
+      </SOMD>
+      <LIMT id="" inp="Qsum" out="Qext" lmin="Qmin" lmax="Qmax" />
+      <!-- The integrator stops while the PI output is at a limit and the error pushes it -->
+      <!-- further out, and while the terminal voltage is below Vfrz.                     -->
+      <GE  id="" op1="Qsum" op2="Qmax" out="Qsum_at_Qmax" />
+      <GT  id="" op1="eq"   op2="zero" out="eq_positive" />
+      <AND id="" op1="Qsum_at_Qmax" op2="eq_positive" out="Qwindup_up" />
+      <LE  id="" op1="Qsum" op2="Qmin" out="Qsum_at_Qmin" />
+      <LT  id="" op1="eq"   op2="zero" out="eq_negative" />
+      <AND id="" op1="Qsum_at_Qmin" op2="eq_negative" out="Qwindup_dn" />
+      <OR  id="" op1="Qwindup_up" op2="Qwindup_dn" out="Qwindup" />
+      <LT  id="" op1="Vt" op2="Vfrz" out="Vt_below_Vfrz" />
+      <OR  id="" op1="Qwindup" op2="Vt_below_Vfrz" out="yq_frozen" />
+      <NOT id="" inp="yq_frozen" out="yq_runs" />
+      <MULT id="" out="@yq" stt="NO">
+         <ADD>yq_runs</ADD>
+         <ADD>eq</ADD>
+      </MULT>
+      <INTG id="" inp="@yq" out="yq" stt="5" K="Ki" />
+      <LAG  id="" inp="Qext" out="Qref" stt="6" K="1.0" P="1.0" T="Tq" />
+
+      <!-- Current logic. During the voltage dip the IBR injects a reactive current -->
+      <!-- proportional to the voltage drop from V0. The floor on the voltage keeps a -->
+      <!-- bolted fault at the terminal from dividing by zero.                        -->
+      <SOMD id="" out="V0-Vt" stt="NO">
+         <ADD sgnl="+">V0</ADD>
+         <ADD sgnl="-">Vt</ADD>
+      </SOMD>
+      <GANH id="" inp="V0-Vt" out="_iqinj_" stt="NO" K="Kqv" />
+      <LIMT id="" inp="_iqinj_" out="[iqinj]" lmin="Iql1" lmax="Iqh1" />
+      <MULT id="" out="iqinj" stt="NO">
+         <ADD>dip</ADD>
+         <ADD>[iqinj]</ADD>
+      </MULT>
+      <LIMT id="" inp="Vt" out="[Vt]" lmin="0.001" lmax="99999" />
+      <DIVS id="" num="Pref" den="[Vt]" out="Ipcmd_pre" stt="NO" />
+      <DIVS id="" num="Qref" den="[Vt]" out="Qref/Vt" stt="NO" />
+      <SOMD id="" out="Iqcmd_pre" stt="NO">
+         <ADD sgnl="+">iqinj</ADD>
+         <ADD sgnl="+">Qref/Vt</ADD>
+      </SOMD>
+      <!-- The priority current is limited by Imax and the other one by what is left of -->
+      <!-- Imax after the priority current command. Only a battery absorbs active power. -->
+      <CONS id="" out="flag"   value="Pqflag-0.5" />
+      <CONS id="" out="bflag"  value="battery-0.5" />
+      <CONS id="" out="Imax^2" value="Imax*Imax" />
+      <SQR  id="" inp="Ipcmd" out="Ipcmd^2" stt="NO" />
+      <SQR  id="" inp="Iqcmd" out="Iqcmd^2" stt="NO" />
+      <SOMD id="" out="Imx2-Ipc2" stt="NO">
+         <ADD sgnl="+">Imax^2</ADD>
+         <ADD sgnl="-">Ipcmd^2</ADD>
+      </SOMD>
+      <SOMD id="" out="Imx2-Iqc2" stt="NO">
+         <ADD sgnl="+">Imax^2</ADD>
+         <ADD sgnl="-">Iqcmd^2</ADD>
+      </SOMD>
+      <LIMT id="" inp="Imx2-Ipc2" out="[Imx2-Ipc2]" lmin="0.0" lmax="99999" />
+      <LIMT id="" inp="Imx2-Iqc2" out="[Imx2-Iqc2]" lmin="0.0" lmax="99999" />
+      <SQRT id="" inp="[Imx2-Ipc2]" out="_Iqmax_" stt="NO" />
+      <SQRT id="" inp="[Imx2-Iqc2]" out="_Ipmax_" stt="NO" />
+      <SLCT id="" slct="flag" sgn1="Imax" sgn2="_Ipmax_" out="Ipmax" />
+      <SLCT id="" slct="flag" sgn1="_Iqmax_" sgn2="Imax" out="Iqmax" />
+      <NEGV id="" inp="Ipmax" out="-Ipmax" stt="NO" />
+      <NEGV id="" inp="Iqmax" out="Iqmin" stt="NO" />
+      <SLCT id="" slct="bflag" sgn1="-Ipmax" sgn2="zero" out="Ipmin" />
+      <LIMT id="" inp="Ipcmd_pre" out="Ipcmd">
+         <LMIN>Ipmin</LMIN>
+         <LMAX>Ipmax</LMAX>
+      </LIMT>
+      <LIMT id="" inp="Iqcmd_pre" out="Iqcmd">
+         <LMIN>Iqmin</LMIN>
+         <LMAX>Iqmax</LMAX>
+      </LIMT>
+
+      <!-- Converter. Ip and Iq follow the commands with the lag 1 / (1 + s Tg), and the -->
+      <!-- rise of Ip is limited to Rrpwr, so its derivative is min((Ipcmd - Ip) / Tg, Rrpwr). -->
+      <SOMD id="" out="dIp" stt="NO">
+         <ADD sgnl="+">Ipcmd</ADD>
+         <ADD sgnl="-">Ip</ADD>
+      </SOMD>
+      <LIMT id="" inp="dIp" out="@Ip">
+         <LMIN>-inf</LMIN>
+         <LMAX>dIpmax</LMAX>
+      </LIMT>
+      <INTG id="" inp="@Ip" out="Ip" stt="7" K="1/Tg" />
+      <LAG  id="" inp="Iqcmd" out="Iq" stt="8" K="1.0" P="1.0" T="Tg" />
+      <!-- Low voltage active current management. The gain is zero below lv0, one above -->
+      <!-- lv1 and linear in between.                                                    -->
+      <SOMD id="" out="Vt-lv0" stt="NO">
+         <ADD sgnl="+">Vt</ADD>
+         <ADD sgnl="-">lv0</ADD>
+      </SOMD>
+      <SOMD id="" out="Vt-lv1" stt="NO">
+         <ADD sgnl="+">Vt</ADD>
+         <ADD sgnl="-">lv1</ADD>
+      </SOMD>
+      <GANH id="" inp="Vt-lv0" out="lvramp" stt="NO" K="1/(lv1-lv0)" />
+      <SLCT id="" slct="Vt-lv0" sgn1="lvramp" sgn2="zero" out="lvgain0" />
+      <SLCT id="" slct="Vt-lv1" sgn1="one" sgn2="lvgain0" out="lvgain" />
+      <MULT id="" out="Ipef" stt="NO">
+         <ADD>Ip</ADD>
+         <ADD>lvgain</ADD>
+      </MULT>
+      <!-- Powers at the terminal -->
+      <MULT id="" out="Pmed" stt="NO">
+         <ADD>Vt</ADD>
+         <ADD>Ipef</ADD>
+      </MULT>
+      <MULT id="" out="Qmed" stt="NO">
+         <ADD>Vt</ADD>
+         <ADD>Iq</ADD>
+      </MULT>
+
+      <!-- Injection in the network, with the same convention as ConvDC-AC#Mdl:PVD1, -->
+      <!-- whose d axis current is the opposite of the reactive current.            -->
+      <NEGV id="" inp="Iq" out="Iqd" stt="NO" />
+      <DQ-C id="">
+         <RE stt="NO">Ire</RE>
+         <IM stt="NO">Iim</IM>
+         <D>Iqd</D>
+         <Q>Ipef</Q>
+         <DELT>delt</DELT>
+      </DQ-C>
+      <GANH id="" inp="Ire" out="Ieqr" stt="NO" K="-1.0*(Sbase*unids)/{MVAbase}" />
+      <GANH id="" inp="Iim" out="Ieqi" stt="NO" K="-1.0*(Sbase*unids)/{MVAbase}" />
+      <OSHT id="" itype="CORRENTE" otype="CORRENTE" mdl="1">
+         <SHT INJre="Ieqr" INJim="Ieqi" G="Ggrnd" B="NULL" />
+      </OSHT>
+
+      <!-- Initial conditions. Ip and Iq are the currents the network delivers at t = 0,   -->
+      <!-- in the IBR base. As in nsLFT, the setpoint Pset is the power the IBR injects    -->
+      <!-- at t = 0 and Vref = Vt + Kc * Qmed, so both errors start at zero, the            -->
+      <!-- integrators hold the whole PI outputs and Pref and Qref equal Pmed and Qmed.     -->
+      <CINI id="" vars="Ip"     cis="(+[Ire]*cos(atan2([Vim],[Vre]))+[Iim]*sin(atan2([Vim],[Vre])))*(-1.0/(Sbase*unids/{MVAbase}))" />
+      <CINI id="" vars="Iq"     cis="(-[Ire]*sin(atan2([Vim],[Vre]))+[Iim]*cos(atan2([Vim],[Vre])))*(+1.0/(Sbase*unids/{MVAbase}))" />
+      <CINI id="" vars="V0"     cis="hypot([Vre],[Vim])" />
+      <CINI id="" vars="Pset"   cis="V0*%Ip" />
+      <CINI id="" vars="yp"     cis="V0*%Ip" />
+      <CINI id="" vars="Pref"   cis="V0*%Ip" />
+      <CINI id="" vars="Vref"   cis="V0+Kc*V0*%Iq" />
+      <CINI id="" vars="yq"     cis="V0*%Iq" />
+      <CINI id="" vars="Qref"   cis="V0*%Iq" />
+      <CINI id="" vars="dfestf" cis="0.0" />
+   </MODEL>

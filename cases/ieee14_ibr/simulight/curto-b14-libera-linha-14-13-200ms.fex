@@ -1,0 +1,6 @@
+<EVENTS version="1">
+	<APCB time="1" subs="Bus 14" no="14" Rccg="0" Xccg="1e-09" Rcca="0" Xcca="0" Rccb="0" Xccb="0" Rccc="0" Xccc="0" />
+	<ABDJ time="1.2" subs="Bus 14" disj="DJ-LT13-14(1)2" />
+	<RMCB time="1.2" subs="Bus 14" no="14" />
+	<ABDJ time="1.2" subs="Bus 13" disj="DJ-LT13-14(1)1" />
+</EVENTS>
