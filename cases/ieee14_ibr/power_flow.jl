@@ -1,7 +1,7 @@
 # Power flow of the IEEE 14 case with the generator UG2 replaced by the IBR IBR2, solved by PowerFlow.jl. It runs in
 # the environment of PowerSystemExperiments, from the root of the package,
 #   julia --project=. cases/ieee14_ibr/power_flow.jl
-# and leaves system, solution and generation in memory for low_freq_transient.jl
+# and leaves system, solution and generation in memory for rms.jl and dynamic_phasor.jl
 
 import PowerFlow as PF
 import PowerSystemData as PSD

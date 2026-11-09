@@ -1,30 +1,30 @@
-# Low frequency transient of the IEEE 14 case. It starts from the power flow of power_flow.jl, which must be run
-# before in the same session, so that system, solution and generation are in memory. From the root of the package,
-# in the environment of PowerSystemExperiments:
+# Low frequency transient of the IEEE 14 case with the RMS network. It starts from the power flow of power_flow.jl,
+# which must be run before in the same session, so that system, solution and generation are in memory. From the root
+# of the package, in the environment of PowerSystemExperiments:
 #   include("cases/ieee14/power_flow.jl")
-#   include("cases/ieee14/low_freq_transient.jl")
+#   include("cases/ieee14/rms.jl")
 # The results are written to cases/ieee14/results, together with the dashboard that shows them
 
-using nsLFT
+import PowerSystemTransient as PST
 import PowerSystemExperiments
 
 if !@isdefined(solution)
     error("Run power_flow.jl before this script, so that the power flow solution is in memory.")
 end
 
-# The element order is the same as in power_flow.jl, so that element k of the power flow is element k of nsLFT.
-# The voltages of the buses and the powers of the generators and loads come from the power flow
+# The element order is the same as in power_flow.jl, so that element k of the power flow is element k of
+# PowerSystemTransient. The voltages of the buses and the powers of the generators and loads come from the power flow
 
 # Buses
-buses = nsLFT.Bus[
-    nsLFT.Bus(;
+buses = PST.Bus[
+    PST.Bus(;
         name = "Bus 01",
         voltage = solution.voltage[1],
         angle = solution.voltage_angle[1],
         shunt_susceptance = 0.0,
         generator_idx = 1,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 02",
         voltage = solution.voltage[2],
         angle = solution.voltage_angle[2],
@@ -32,7 +32,7 @@ buses = nsLFT.Bus[
         generator_idx = 2,
         load_idx = 1,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 03",
         voltage = solution.voltage[3],
         angle = solution.voltage_angle[3],
@@ -40,21 +40,21 @@ buses = nsLFT.Bus[
         generator_idx = 3,
         load_idx = 2,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 04",
         voltage = solution.voltage[4],
         angle = solution.voltage_angle[4],
         shunt_susceptance = 0.0,
         load_idx = 3,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 05",
         voltage = solution.voltage[5],
         angle = solution.voltage_angle[5],
         shunt_susceptance = 0.0,
         load_idx = 4,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 06",
         voltage = solution.voltage[6],
         angle = solution.voltage_angle[6],
@@ -62,13 +62,13 @@ buses = nsLFT.Bus[
         generator_idx = 4,
         load_idx = 5,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 07",
         voltage = solution.voltage[7],
         angle = solution.voltage_angle[7],
         shunt_susceptance = 0.0,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 08",
         voltage = solution.voltage[8],
         angle = solution.voltage_angle[8],
@@ -76,42 +76,42 @@ buses = nsLFT.Bus[
         generator_idx = 5,
     ),
     # capacitor bank of 19 Mvar at 1 pu
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 09",
         voltage = solution.voltage[9],
         angle = solution.voltage_angle[9],
         shunt_susceptance = 0.19,
         load_idx = 6,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 10",
         voltage = solution.voltage[10],
         angle = solution.voltage_angle[10],
         shunt_susceptance = 0.0,
         load_idx = 7,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 11",
         voltage = solution.voltage[11],
         angle = solution.voltage_angle[11],
         shunt_susceptance = 0.0,
         load_idx = 8,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 12",
         voltage = solution.voltage[12],
         angle = solution.voltage_angle[12],
         shunt_susceptance = 0.0,
         load_idx = 9,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 13",
         voltage = solution.voltage[13],
         angle = solution.voltage_angle[13],
         shunt_susceptance = 0.0,
         load_idx = 10,
     ),
-    nsLFT.Bus(;
+    PST.Bus(;
         name = "Bus 14",
         voltage = solution.voltage[14],
         angle = solution.voltage_angle[14],
@@ -120,9 +120,9 @@ buses = nsLFT.Bus[
     ),
 ]
 
-# Lines. nsLFT takes the total shunt susceptance of the pi model and splits it between the two ends
-circuits = nsLFT.Circuit[
-    nsLFT.Circuit(;
+# Lines. PowerSystemTransient takes the total shunt susceptance of the pi model and splits it between the two ends
+circuits = PST.Circuit[
+    PST.Circuit(;
         name = "LT1-2",
         from_bus_idx = 1,
         to_bus_idx = 2,
@@ -132,7 +132,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0528,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT1-5",
         from_bus_idx = 1,
         to_bus_idx = 5,
@@ -142,7 +142,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0492,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT2-3",
         from_bus_idx = 2,
         to_bus_idx = 3,
@@ -152,7 +152,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0438,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT2-4",
         from_bus_idx = 2,
         to_bus_idx = 4,
@@ -162,7 +162,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0374,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT2-5",
         from_bus_idx = 2,
         to_bus_idx = 5,
@@ -172,7 +172,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.034,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT3-4",
         from_bus_idx = 3,
         to_bus_idx = 4,
@@ -182,7 +182,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0346,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT4-5",
         from_bus_idx = 4,
         to_bus_idx = 5,
@@ -192,7 +192,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0128,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT6-11",
         from_bus_idx = 6,
         to_bus_idx = 11,
@@ -202,7 +202,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT6-12",
         from_bus_idx = 6,
         to_bus_idx = 12,
@@ -212,7 +212,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT6-13",
         from_bus_idx = 6,
         to_bus_idx = 13,
@@ -222,7 +222,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT7-8",
         from_bus_idx = 7,
         to_bus_idx = 8,
@@ -232,7 +232,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT7-9",
         from_bus_idx = 7,
         to_bus_idx = 9,
@@ -242,7 +242,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT9-10",
         from_bus_idx = 9,
         to_bus_idx = 10,
@@ -252,7 +252,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT9-14",
         from_bus_idx = 9,
         to_bus_idx = 14,
@@ -262,7 +262,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT10-11",
         from_bus_idx = 10,
         to_bus_idx = 11,
@@ -272,7 +272,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT12-13",
         from_bus_idx = 12,
         to_bus_idx = 13,
@@ -282,7 +282,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1.0,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "LT13-14",
         from_bus_idx = 13,
         to_bus_idx = 14,
@@ -293,8 +293,8 @@ circuits = nsLFT.Circuit[
         tap_ratio = 1.0,
     ),
     # Transformers. The tap a sits on the from side, so the series current is (V_from / a - V_to) / Z,
-    # which in the admittance matrix of nsLFT means tap_ratio = 1 / a
-    nsLFT.Circuit(;
+    # which in the admittance matrix of PowerSystemTransient means tap_ratio = 1 / a
+    PST.Circuit(;
         name = "TR4-7",
         from_bus_idx = 4,
         to_bus_idx = 7,
@@ -304,7 +304,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1 / 0.978,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "TR4-9",
         from_bus_idx = 4,
         to_bus_idx = 9,
@@ -314,7 +314,7 @@ circuits = nsLFT.Circuit[
         shunt_susceptance = 0.0,
         tap_ratio = 1 / 0.969,
     ),
-    nsLFT.Circuit(;
+    PST.Circuit(;
         name = "TR5-6",
         from_bus_idx = 5,
         to_bus_idx = 6,
@@ -330,8 +330,8 @@ circuits = nsLFT.Circuit[
 # case gives no rated voltage and the model does not use it yet. UG3, UG6 and UG8 are synchronous condensers,
 # which have no turbine and therefore no governor. Every machine has a voltage regulator, including the synchronous
 # condensers, whose only role is to hold the voltage of their bus
-generators = nsLFT.Generator[
-    nsLFT.OneDOneQGenerator(;
+generators = PST.Generator[
+    PST.OneDOneQGenerator(;
         name = "UG1",
         bus = 1,
         Sn = 286.1881227,
@@ -347,10 +347,10 @@ generators = nsLFT.Generator[
         D = 2.0,
         P0 = real(generation[1]),
         Q0 = imag(generation[1]),
-        governor = nsLFT.Droop1stOrder(; name = "UG1 gov", R = 0.05, Tc = 0.01, Tr = 2.0, omega_ref = 60.0),
-        voltage_regulator = nsLFT.Static1stOrder(; name = "UG1 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
+        governor = PST.Droop1stOrder(; name = "UG1 gov", R = 0.05, Tc = 0.01, Tr = 2.0, omega_ref = 60.0),
+        voltage_regulator = PST.Static1stOrder(; name = "UG1 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
     ),
-    nsLFT.OneDOneQGenerator(;
+    PST.OneDOneQGenerator(;
         name = "UG2",
         bus = 2,
         Sn = 88.09334324,
@@ -366,10 +366,10 @@ generators = nsLFT.Generator[
         D = 2.0,
         P0 = real(generation[2]),
         Q0 = imag(generation[2]),
-        governor = nsLFT.Droop1stOrder(; name = "UG2 gov", R = 0.05, Tc = 0.01, Tr = 2.0, omega_ref = 60.0),
-        voltage_regulator = nsLFT.Static1stOrder(; name = "UG2 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
+        governor = PST.Droop1stOrder(; name = "UG2 gov", R = 0.05, Tc = 0.01, Tr = 2.0, omega_ref = 60.0),
+        voltage_regulator = PST.Static1stOrder(; name = "UG2 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
     ),
-    nsLFT.OneDOneQGenerator(;
+    PST.OneDOneQGenerator(;
         name = "UG3",
         bus = 3,
         Sn = 75.889,
@@ -385,9 +385,9 @@ generators = nsLFT.Generator[
         D = 2.0,
         P0 = real(generation[3]),
         Q0 = imag(generation[3]),
-        voltage_regulator = nsLFT.Static1stOrder(; name = "UG3 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
+        voltage_regulator = PST.Static1stOrder(; name = "UG3 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
     ),
-    nsLFT.OneDOneQGenerator(;
+    PST.OneDOneQGenerator(;
         name = "UG6",
         bus = 6,
         Sn = 40.722,
@@ -403,9 +403,9 @@ generators = nsLFT.Generator[
         D = 2.0,
         P0 = real(generation[4]),
         Q0 = imag(generation[4]),
-        voltage_regulator = nsLFT.Static1stOrder(; name = "UG6 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
+        voltage_regulator = PST.Static1stOrder(; name = "UG6 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
     ),
-    nsLFT.OneDOneQGenerator(;
+    PST.OneDOneQGenerator(;
         name = "UG8",
         bus = 8,
         Sn = 7.1863,
@@ -421,73 +421,73 @@ generators = nsLFT.Generator[
         D = 2.0,
         P0 = real(generation[5]),
         Q0 = imag(generation[5]),
-        voltage_regulator = nsLFT.Static1stOrder(; name = "UG8 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
+        voltage_regulator = PST.Static1stOrder(; name = "UG8 avr", K = 50.0, T = 0.05, Lmn = -5.0, Lmx = 5.0),
     ),
 ]
 
 # Loads
-loads = nsLFT.Load[
-    nsLFT.ConstantZLoad(;
+loads = PST.Load[
+    PST.ConstantZLoad(;
         name = "CR2",
         bus = 2,
         P0 = PSD.load_active_power(system, 1),
         Q0 = PSD.load_reactive_power(system, 1),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR3",
         bus = 3,
         P0 = PSD.load_active_power(system, 2),
         Q0 = PSD.load_reactive_power(system, 2),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR4",
         bus = 4,
         P0 = PSD.load_active_power(system, 3),
         Q0 = PSD.load_reactive_power(system, 3),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR5",
         bus = 5,
         P0 = PSD.load_active_power(system, 4),
         Q0 = PSD.load_reactive_power(system, 4),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR6",
         bus = 6,
         P0 = PSD.load_active_power(system, 5),
         Q0 = PSD.load_reactive_power(system, 5),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR9",
         bus = 9,
         P0 = PSD.load_active_power(system, 6),
         Q0 = PSD.load_reactive_power(system, 6),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR10",
         bus = 10,
         P0 = PSD.load_active_power(system, 7),
         Q0 = PSD.load_reactive_power(system, 7),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR11",
         bus = 11,
         P0 = PSD.load_active_power(system, 8),
         Q0 = PSD.load_reactive_power(system, 8),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR12",
         bus = 12,
         P0 = PSD.load_active_power(system, 9),
         Q0 = PSD.load_reactive_power(system, 9),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR13",
         bus = 13,
         P0 = PSD.load_active_power(system, 10),
         Q0 = PSD.load_reactive_power(system, 10),
     ),
-    nsLFT.ConstantZLoad(;
+    PST.ConstantZLoad(;
         name = "CR14",
         bus = 14,
         P0 = PSD.load_active_power(system, 11),
@@ -496,12 +496,12 @@ loads = nsLFT.Load[
 ]
 
 # trip of the generator UG2 at t = 1 s
-perturbations = nsLFT.Perturbation[nsLFT.GeneratorTrip(; name = "UG2 trip", generator_idx = 2, time = 1.0)]
+perturbations = PST.Perturbation[PST.GeneratorTrip(; name = "UG2 trip", generator_idx = 2, time = 1.0)]
 
 # trip of the line between buses 14 and 13 at t = 1.2 s, after a short circuit at bus 14 at t = 1.0 s
-# perturbations = [nsLFT.ShortCircuit("curto-b14", 14, 1.0, 99999, 0), nsLFT.ShortCircuitRemoval("rm-curto-b14", 1, 1.2), nsLFT.CircuitTrip("trip-linha-b14-13", 17, 1.2)]
+# perturbations = [PST.ShortCircuit("curto-b14", 14, 1.0, 99999, 0), PST.ShortCircuitRemoval("rm-curto-b14", 1, 1.2), PST.CircuitTrip("trip-linha-b14-13", 17, 1.2)]
 
-inputs = nsLFT.Inputs(;
+inputs = PST.Inputs(;
     case_path = @__DIR__,
     Sb = PSD.base_power(system),
     fb = PSD.base_frequency(system),
@@ -515,14 +515,14 @@ inputs = nsLFT.Inputs(;
     perturbations = perturbations,
 )
 output_dir = "results-1d1q-gov-avr-trip-ug2"
-output_path = joinpath(nsLFT.case_path(inputs), output_dir)
+output_path = joinpath(PST.case_path(inputs), output_dir)
 tic = time()
-results = nsLFT.solve(inputs; output_path)
+results = PST.solve(inputs; output_path)
 toc = time()
 
 println("Simulation time: $(round(toc - tic, digits = 2)) seconds")
 
-# nsLFT writes the results to <case>/results, and the dashboard is built from those files
+# PowerSystemTransient writes the results to <case>/results, and the dashboard is built from those files
 if !isdir(output_path)
     mkpath(output_path)
 end

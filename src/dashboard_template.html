@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>nsLFT · Resultados</title>
+<title>PowerSystemTransient · Resultados</title>
 <style>
 :root {
   --navy: #122945;
@@ -400,7 +400,7 @@ button { font: inherit; }
 </head>
 <body>
 <header class="top">
-  <span class="brand">nsLFT</span>
+  <span class="brand">PowerSystemTransient</span>
   <span class="case-name" id="case-name"></span>
   <nav class="tabs" aria-label="Páginas">
     <button data-action="set-tab" data-tab="diagram">Diagrama</button>
@@ -506,6 +506,7 @@ function defaultState() {
   };
 }
 
+// The key keeps the former name of the package, so the arrangements saved before the rename are still found.
 function layoutStoragePrefix() {
   return "nsLFT-layout-v1:";
 }
@@ -518,6 +519,7 @@ function eventColor() {
   return "#d1495b";
 }
 
+// The key keeps the former name of the package, so the selections saved before the rename are still found.
 function storageKey() {
   return "nsLFT-dashboard-v1";
 }
@@ -1034,7 +1036,7 @@ function renderHeader() {
   }
   document.getElementById("case-name").textContent = caseText;
   if (store.cases.length === 1) {
-    document.title = "nsLFT · " + caseText;
+    document.title = "PowerSystemTransient · " + caseText;
   }
 
   const tabButtons = document.querySelectorAll('[data-action="set-tab"]');
@@ -2725,7 +2727,7 @@ function drawDiagram() {
     diagramView = null;
     container.innerHTML =
       '<div class="no-series">Este resultado não tem o arquivo case.json, que descreve a rede. ' +
-      "Rode o caso de novo com a versão atual do nsLFT para ver o diagrama.</div>";
+      "Rode o caso de novo com a versão atual do PowerSystemTransient para ver o diagrama.</div>";
     return;
   }
 

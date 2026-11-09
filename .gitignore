@@ -4,3 +4,5 @@ Manifest.toml
 
 # Simulation outputs of the cases
 results*/
+rms-results*/
+dp-results*/
