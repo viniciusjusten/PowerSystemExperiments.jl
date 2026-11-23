@@ -498,21 +498,21 @@ loads = PST.Load[
 ]
 
 # trip of the generator UG2 at t = 1 s
-# perturbations = PST.Perturbation[PST.GeneratorTrip(; name = "UG2 trip", generator_idx = 2, time = 1.0)]
+perturbations = PST.Perturbation[PST.GeneratorTrip(; name = "UG2 trip", generator_idx = 2, time = 1.0)]
 
 # trip of the line between buses 14 and 13 at t = 1.2 s, after a short circuit at bus 14 at t = 1.0 s. The dynamic
 # phasor network only takes resistive faults, so the fault susceptance is zero
-perturbations = PST.Perturbation[
-    PST.ShortCircuit(; name = "curto-b14", bus_idx = 14, time = 1.0, fault_conductance = 99999.0, fault_susceptance = 0.0),
-    PST.ShortCircuitRemoval(; name = "rm-curto-b14", short_circuit_idx = 1, time = 1.2),
-    PST.CircuitTrip(; name = "trip-linha-b14-13", circuit_idx = 17, time = 1.2),
-]
+# perturbations = PST.Perturbation[
+#     PST.ShortCircuit(; name = "curto-b14", bus_idx = 14, time = 1.0, fault_conductance = 99999.0, fault_susceptance = 0.0),
+#     PST.ShortCircuitRemoval(; name = "rm-curto-b14", short_circuit_idx = 1, time = 1.2),
+#     PST.CircuitTrip(; name = "trip-linha-b14-13", circuit_idx = 17, time = 1.2),
+# ]
 
 inputs = PST.Inputs(;
     case_path = @__DIR__,
     Sb = PSD.base_power(system),
     fb = PSD.base_frequency(system),
-    integration_step = 0.001,
+    integration_step = 0.0001,
     simulation_horizon = 10.0,
     tolerance = 1e-6,
     buses = buses,
@@ -522,8 +522,8 @@ inputs = PST.Inputs(;
     perturbations = perturbations,
     network = PST.NetworkDP(),
 )
-# output_dir = "dp-results-1d1q-gov-avr-trip-ug2"
-output_dir = "dp-results-1d1q-gov-avr-curto-linha-b14-13"
+output_dir = "dp-results-1d1q-gov-avr-trip-ug2"
+# output_dir = "dp-results-1d1q-gov-avr-curto-linha-b14-13"
 output_path = joinpath(PST.case_path(inputs), output_dir)
 tic = time()
 results = PST.solve(inputs; output_path)

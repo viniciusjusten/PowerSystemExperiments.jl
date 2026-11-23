@@ -6,3 +6,9 @@ Manifest.toml
 results*/
 rms-results*/
 dp-results*/
+emt-results*/
+
+*.bin
+*.lis
+*.dbg
+*.pl4
